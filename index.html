@@ -20,16 +20,18 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
-      <h1>Weather Dashboard</h1>
-    </header>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1"><h1>Weather Dashboard</h1></span>
+      </nav>
     <div class= "row">
     <aside class=" col-3 pr-4">
         <h2>Search for a City:</h2>
     <input class="city" type="text" placeholder= "City Name"></input>
     <button type = "button" class="btn btn-info">Search</button>
+    <ul class="savedList"></ul>
     </aside>
-    <div class=" col-8">
+    <div class="col-8">
     <div class="card mb-3">
       <div class="card-body">
         <h2 class="card-title"></h2>
@@ -38,11 +40,11 @@
         </ul>
         </div>
       </div>
-      <div class="card-group row" id="forecast">
-       <div class="card">
-          <div class="card-body">
+      <div id="forecast">
+          <div class="day-cards">
 
           </div>
+          
       </div>
     </div>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

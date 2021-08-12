@@ -1,3 +1,16 @@
 .list {
   list-style-type: none;
 }
+
+.day-list {
+  list-style-type: none;
+}
+
+.card-body {
+  background-color: rgb(81, 81, 233);
+  color: whitesmoke;
+}
+
+.container-fluid {
+  background-color: rgb(196, 173, 154);
+}

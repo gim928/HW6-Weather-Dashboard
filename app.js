@@ -5,8 +5,22 @@ var createHeading = document.querySelector(".card-title");
 var todaysDate = moment().format("dddd, MM-DD-YYYY");
 var cardDate = moment().format("dddd, MMMM Do");
 var forecast = document.getElementById(forecast);
-var cardDiv = document.querySelector(".card");
+var cardDiv = document.querySelector(".day-cards");
 var savedArray = [];
+var cityName;
+
+function saveData() {
+  var citySaved = document.querySelector(".city").value;
+  if (savedArray.includes(citySaved)) return;
+  savedArray.push({ citySaved });
+  localStorage.setItem(savedArray, JSON.stringify(savedArray));
+  function makeButton() {
+    var cityButton = document.createElement("button");
+    cityButton.innerHTML = citySaved;
+  }
+
+  makeButton();
+}
 
 function getApi(event) {
   event.preventDefault();
@@ -14,13 +28,6 @@ function getApi(event) {
   var cityName = document.querySelector(".city").value;
 
   //function to save to local storage
-  function storage() {
-    if (localStorage.getItem("savedArray")) {
-      savedArray = JSON.parse(localStorage.getItem("savedArray"));
-    }
-    savedArray.push(cityName.value);
-    localStorage.setItem("savedArray", JSON.stringify(savedArray));
-  }
 
   var requestURL =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -39,7 +46,7 @@ function getApi(event) {
       var wind = document.createElement("li");
       var humidity = document.createElement("li");
 
-      createHeading.textContent = data.name + "(" + todaysDate + ")";
+      createHeading.textContent = data.name + " (" + todaysDate + ")";
       temperature.textContent = "Temperature: " + data.main.temp + " degrees F";
       feelsLike.textContent =
         "Feels like: " + data.main.feels_like + " degrees F";
@@ -54,8 +61,11 @@ function getApi(event) {
       list.appendChild(humidity);
     });
   getForecast();
+  saveData();
 }
+// function clearLast(event) {
 
+// }
 function getForecast() {
   var cityName = document.querySelector(".city").value;
   var requestURL =
@@ -77,15 +87,20 @@ function getForecast() {
           var humidityDay = data.list[i].main.humidity;
           var iconDay = data.list[i].weather[0].icon;
 
-          // var cardDay = document.createElement("div");
-          // cardDay.setAttribute("class", "card");
+          // var cardRow = document.createElement("div");
+          // cardRow.setAttribute("class", "row");
+          // var cardCol = document.createElement("div");
+          // cardCol.setAttribute("class", "col-sm-6");
+          var cardDay = document.createElement("div");
+          cardDay.setAttribute("class", "card");
           var cardBody = document.createElement("div");
           cardBody.setAttribute("class", "card-body");
           var cardTitle = document.createElement("h5");
           cardTitle.setAttribute("class", "card-title");
           var dayList = document.createElement("ul");
-          dayList.setAttribute("class", "day-list");
-          var iDay = document.createElement("li");
+          dayList.setAttribute("class", " card-text day-list");
+
+          var iDay = document.createElement("img");
           var tDay = document.createElement("li");
           var wDay = document.createElement("li");
           var hDay = document.createElement("li");
@@ -96,6 +111,9 @@ function getForecast() {
           hDay.textContent = "Humidity: " + humidityDay + " %";
           cardTitle.textContent = dateFormatted;
 
+          // cardDiv.append(cardRow);
+          // cardDiv.appendChild(cardCol);
+          // cardDiv.appendChild(cardDay);
           cardDiv.appendChild(cardBody);
           cardBody.appendChild(cardTitle);
           cardBody.appendChild(dayList);
