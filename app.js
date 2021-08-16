@@ -1,34 +1,93 @@
-var button = document.querySelector(".btn");
+var searchButton = document.querySelector(".btn");
 var card = document.querySelector(".card-body");
 var list = document.querySelector(".list");
 var createHeading = document.querySelector(".card-title");
 var todaysDate = moment().format("dddd, MM-DD-YYYY");
 var cardDate = moment().format("dddd, MMMM Do");
-var forecast = document.getElementById(forecast);
 var cardDiv = document.querySelector(".day-cards");
-var savedArray = [];
 var cityName;
+var citySaved;
+var savedDisplay = document.querySelector(".savedList");
 
-function saveData() {
-  var citySaved = document.querySelector(".city").value;
-  if (savedArray.includes(citySaved)) return;
-  savedArray.push({ citySaved });
-  localStorage.setItem(savedArray, JSON.stringify(savedArray));
-  function makeButton() {
-    var cityButton = document.createElement("button");
-    cityButton.innerHTML = citySaved;
+loadData();
+//load saved cities
+function loadData() {
+  var savedArray = [];
+  var savedCities = JSON.parse(localStorage.getItem("savedArray"));
+  if (savedCities) {
+    savedArray = savedCities;
   }
-
-  makeButton();
+  console.log(savedArray);
+  makeButton(savedArray);
 }
 
-function getApi(event) {
+//save user input
+function saveData() {
+  var savedArray = [];
+  var savedCities = JSON.parse(localStorage.getItem("savedArray"));
+  if (savedCities) {
+    savedArray = savedCities;
+  }
+  var citySaved = document.querySelector(".city").value;
+  if (savedArray.includes(citySaved)) {
+    return;
+  }
+  savedArray.push({ citySaved });
+  localStorage.setItem("savedArray", JSON.stringify(savedArray));
+  makeButtonUserInput(citySaved);
+}
+
+function makeButtonUserInput(citySaved) {
+  var divButton = document.createElement("div");
+  divButton.setAttribute("class", "d-grid gap-2");
+  var cityButton = document.createElement("button");
+  cityButton.setAttribute("class", "btn btn-outline-primary btnCity");
+  cityButton.setAttribute("type", "button");
+  cityButton.textContent = citySaved;
+  savedDisplay.appendChild(divButton);
+  divButton.appendChild(cityButton);
+}
+
+//dynamically load buttons with saved city names
+function makeButton(savedArray) {
+  for (var i = 0; i < savedArray.length; i++) {
+    var divButton = document.createElement("div");
+    divButton.setAttribute("class", "d-grid gap-2");
+    var cityButton = document.createElement("button");
+    cityButton.setAttribute("class", "btn btn-outline-primary btnCity");
+    cityButton.setAttribute("type", "button");
+    cityButton.textContent = savedArray[i].citySaved;
+    savedDisplay.appendChild(divButton);
+    divButton.appendChild(cityButton);
+  }
+}
+
+function clearCurrent() {
+  list.innerHTML = "";
+}
+
+//function to get data based on user input/submit event
+function getWeatherFromUserInput(event) {
   event.preventDefault();
-
   var cityName = document.querySelector(".city").value;
+  getApi(cityName);
+  getForecast(cityName);
+  saveData();
+}
 
-  //function to save to local storage
+//function to get data based on button click on saved cities
+var allCityButtons = document.querySelectorAll(".btnCity");
+allCityButtons.forEach(function (each) {
+  console.log(each);
+  each.addEventListener("click", function (event) {
+    let cityName = event.target.textContent;
+    console.log(cityName);
+    getApi(cityName);
+    getForecast(cityName);
+  });
+});
 
+function getApi(cityName) {
   var requestURL =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     cityName +
@@ -60,14 +119,11 @@ function getApi(event) {
       list.appendChild(wind);
       list.appendChild(humidity);
     });
-  getForecast();
-  saveData();
-}
-// function clearLast(event) {
 
-// }
-function getForecast() {
-  var cityName = document.querySelector(".city").value;
+  clearCurrent();
+}
+
+function getForecast(cityName) {
   var requestURL =
     "https://api.openweathermap.org/data/2.5/forecast?q=" +
     cityName +
@@ -87,44 +143,26 @@ function getForecast() {
           var humidityDay = data.list[i].main.humidity;
           var iconDay = data.list[i].weather[0].icon;
 
-          // var cardRow = document.createElement("div");
-          // cardRow.setAttribute("class", "row");
-          // var cardCol = document.createElement("div");
-          // cardCol.setAttribute("class", "col-sm-6");
-          var cardDay = document.createElement("div");
-          cardDay.setAttribute("class", "card");
-          var cardBody = document.createElement("div");
-          cardBody.setAttribute("class", "card-body");
-          var cardTitle = document.createElement("h5");
-          cardTitle.setAttribute("class", "card-title");
-          var dayList = document.createElement("ul");
-          dayList.setAttribute("class", " card-text day-list");
+          var cardRow = document.createElement("div");
+          cardRow.setAttribute("class", "card-group");
+          cardRow.innerHTML = `
+            <div class="card">
+            <div class = "card-body">
+            <h5 class="card-title">${dateFormatted}</h5>
+            <ul class="card-text day-list"></ul>
+            <li class="list-unstyled"><img src="https://openweathermap.org/img/w/${iconDay}.png"</img></li>
+            <li class="list-unstyled">Temperature: ${tempDay} degrees F</li>
+            <li class="list-unstyled">Wind: ${windDay} mph</li>
+            <li class="list-unstyled">Humidity: ${humidityDay} %</li>
+            </div>
+            </div>
+          `;
 
-          var iDay = document.createElement("img");
-          var tDay = document.createElement("li");
-          var wDay = document.createElement("li");
-          var hDay = document.createElement("li");
-
-          iDay.innerHTML = iconDay;
-          tDay.textContent = "Temperature: " + tempDay + " degrees F";
-          wDay.textContent = "Wind: " + windDay + " mph";
-          hDay.textContent = "Humidity: " + humidityDay + " %";
-          cardTitle.textContent = dateFormatted;
-
-          // cardDiv.append(cardRow);
-          // cardDiv.appendChild(cardCol);
-          // cardDiv.appendChild(cardDay);
-          cardDiv.appendChild(cardBody);
-          cardBody.appendChild(cardTitle);
-          cardBody.appendChild(dayList);
-          dayList.appendChild(iDay);
-          dayList.appendChild(tDay);
-          dayList.appendChild(wDay);
-          dayList.appendChild(hDay);
+          cardDiv.append(cardRow);
         }
       }
     });
 }
 
 //EVENT HANDLERS
-button.addEventListener("click", getApi);
+searchButton.addEventListener("click", getWeatherFromUserInput);

@@ -11,6 +11,9 @@
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
@@ -20,32 +23,31 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light">
-      <div class="container-fluid">
-    <span class="navbar-brand mb-0 h1"><h1>Weather Dashboard</h1></span>
+    <nav class="navbar navbar-light bg-light ">
+      <div class="container-fluid justify-content-center custom-nav">
+    <span class="navbar-nav mb-0 h1 "><h1>Weather Dashboard</h1></span>
       </nav>
     <div class= "row">
     <aside class=" col-3 pr-4">
-        <h2>Search for a City:</h2>
+        <h5>To view the weather, search for a city:</h5>
     <input class="city" type="text" placeholder= "City Name"></input>
-    <button type = "button" class="btn btn-info">Search</button>
-    <ul class="savedList"></ul>
+    <button type = "button" class="btn btn-primary">Search</button>
+    <div class="savedList"></div>
     </aside>
-    <div class="col-8">
-    <div class="card mb-3">
+    <div class="col-9 forecast-div"> 
+      <div class="card mb-3">
       <div class="card-body">
-        <h2 class="card-title"></h2>
+        <h2 class="card-title">Your forecast will appear here</h2>
         <ul class="list">
           <li class="card-text text-muted"></li>
         </ul>
         </div>
-      </div>
-      <div id="forecast">
-          <div class="day-cards">
+      
+        <div class="day-cards">
 
-          </div>
+        </div>
           
-      </div>
+     </div>
     </div>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="app.js"></script>

@@ -1,16 +1,33 @@
+* {
+  font-family: "lobster", cursive;
+}
 .list {
   list-style-type: none;
 }
 
+ul,
 .day-list {
   list-style-type: none;
 }
 
-.card-body {
-  background-color: rgb(81, 81, 233);
+aside {
+  background-color: rgb(81, 203, 233);
   color: whitesmoke;
 }
 
 .container-fluid {
-  background-color: rgb(196, 173, 154);
+  background-color: rgba(196, 173, 154, 0.575);
+}
+
+.forecast-div {
+  background-color: cornsilk;
+}
+
+.card-body {
+  background-color: cornsilk;
+}
+
+.custom-nav {
+  background-color: darkblue;
+  color: whitesmoke;
 }
