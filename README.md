@@ -6,4 +6,4 @@
 
 #### Live Link to the website: https://gim928.github.io/HW6-Weather-Dashboard/
 
-##### Screenshot: ./screenshot.png
+##### Screenshot: https://github.com/gim928/HW6-Weather-Dashboard/blob/main/Screenshot.png
