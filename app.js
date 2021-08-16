@@ -144,9 +144,10 @@ function getForecast(cityName) {
           var iconDay = data.list[i].weather[0].icon;
 
           var cardRow = document.createElement("div");
-          cardRow.setAttribute("class", "card-group");
+          cardRow.setAttribute("class", "card");
+          cardRow.setAttribute("style", "width: 18 rem");
           cardRow.innerHTML = `
-            <div class="card">
+           
             <div class = "card-body">
             <h5 class="card-title">${dateFormatted}</h5>
             <ul class="card-text day-list"></ul>
@@ -155,7 +156,7 @@ function getForecast(cityName) {
             <li class="list-unstyled">Wind: ${windDay} mph</li>
             <li class="list-unstyled">Humidity: ${humidityDay} %</li>
             </div>
-            </div>
+            
           `;
 
           cardDiv.append(cardRow);

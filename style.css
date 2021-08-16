@@ -15,10 +15,6 @@ aside {
   color: whitesmoke;
 }
 
-.container-fluid {
-  background-color: rgba(196, 173, 154, 0.575);
-}
-
 .forecast-div {
   background-color: cornsilk;
 }
@@ -28,6 +24,5 @@ aside {
 }
 
 .custom-nav {
-  background-color: darkblue;
   color: whitesmoke;
 }
